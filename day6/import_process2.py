@@ -25,12 +25,12 @@ for th in things:
     p.start()
     
 #这是父进程做的事情
-while True:
-    pass
+# while True:
+#     pass
 
-回收过程
+# 回收过程
 for i in process:
     i.join()
 
-#如果非得让父进程搞点事情,代码就写在p.start()和p.join()之间
+# 如果非得让父进程搞点事情,代码就写在p.start()和p.join()之间
 

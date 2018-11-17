@@ -10,4 +10,4 @@ r = pool.map(fun,range(6))
 
 pool.close()
 pool.join()
-print(r)
+print(r) 

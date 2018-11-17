@@ -6,7 +6,7 @@ def send_msg(s,name,ADDR):
         text = input("请输入消息:")
         msg = "C %s %s" % (name,text)
         s.sendto(msg.encode(),ADDR)
-        
+
 def recv_msg(s):
     while True:
         data,addr = s.recvfrom(2048)
@@ -32,15 +32,14 @@ def main():
         #得到反馈
         data,addr = s.recvfrom(1024)
         if data.decode() == "OK":
-            print("您已进入聊天室")
+            print("您已进入聊天室....")
             break
         else:
             print(data.decode())
-    
     #创建父子进程,用于发送接受消息
     pid = os.fork()
     if pid < 0:
-        print("创建进程失败")
+        sys.exit("创建进程失败")
     # 子进程负责发送消息
     elif pid == 0:
         send_msg(s,name,ADDR)

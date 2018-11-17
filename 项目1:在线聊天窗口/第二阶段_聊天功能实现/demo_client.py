@@ -1,8 +1,12 @@
 from socket import *
 import sys,os
 
-def send_msg():
-    pass
+def send_msg(s,name,ADDR):
+    while True:
+        text = input("请输入消息:")
+        msg = "C %s %s" % (name,text)
+        s.sendto(msg.encode(),ADDR)
+        
 def recv_msg(s):
     while True:
         data,addr = s.recvfrom(2048)
@@ -39,7 +43,7 @@ def main():
         print("创建进程失败")
     # 子进程负责发送消息
     elif pid == 0:
-        send_msg()
+        send_msg(s,name,ADDR)
     #父进程负责接受消息
     else:
         recv_msg(s)

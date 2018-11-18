@@ -9,8 +9,8 @@ while True:
     c,addr = s.accept()
     print("connect from :",addr)
     # 浏览器的请求
-    data.url = c.recv(4096)
-    print(data.url)
+    data = c.recv(4096)
+    print(data)
 
     # 返回http响应
     data = '''Http/1.1 200 OK

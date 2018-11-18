@@ -26,10 +26,12 @@ def handleClient(connfd):
     #将requset按行分割
     # print(request)
     request_lines= request.splitlines()
-    # for line in request_lines:
-    #     print(line)
+    for line in request_lines:
+        print(line)
     try:
-        f = open("zhangben.html")
+        f = open("demo.html")
+        s = read()
+        print(s)
     except Exception:
         response = "HTTP/1.1 404 Not Found\r\n"
         response += "Content-Type:text/html\r\n"  
@@ -37,6 +39,7 @@ def handleClient(connfd):
         response += "<h1> Sorry the page not found</h1>"
     else:
         response = "HTTP/1.1 200 OK\r\n"
+        response += "Content-Encoding:utf8\r\n"
         response += "Content-Type:text/html\r\n"  
         response += "\r\n"
         response += f.read()

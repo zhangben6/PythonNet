@@ -12,7 +12,7 @@ def boy():
         money.value += random.randint(1,1500)
 def girl():
     for i in range(30):
-        time.sleep(0.15)
+        time.sleep(0.2)
         money.value -= random.randint(100,1200)
 
 b = Process(target=boy)

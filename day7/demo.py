@@ -18,21 +18,22 @@
 #   print("Parent process end",time.ctime())
 
 from multiprocessing import Process,Pool
-from time import sleep
+from time import sleep,ctime
 def fun(s):
-    sleep(2)
+    sleep(s)
     msg = ctime()
-def creatpro():
-    result = []
-    for _ in range(5):
-        p = Process(target=fun,args=(2,))    
-        result.append(p)
-        return result
-def main(res):
-    pool = Pool
-    for x in res:
-        pool.apply_async(target=x)
+    print(msg)
+# def creatpro():
+#     result = []
+#     for _ in range(5):
+#         p = Process(target=fun,args=(2,))    
+#         result.append(p)
+#         return result
+def main():
+    pool = Pool()
+    for _ in range(8):
+        pool.apply_async(func=fun,args=(2,))
+        print(1)
     pool.close()
     pool.join()
-res = creatpro()
-main(res)
+main()

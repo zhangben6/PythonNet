@@ -75,14 +75,46 @@ sem.get_value()
         5.进程也有自己独立的资源,栈空间,命令集,ID等
         
 threading 模块创建线程
-from threading import Thread
-t = Thread()
-功能:创建进程对象
-参数: target 绑定线程函数
-     args 元组  给线程函数传参
-     kwargs  字典  给线程函数传参
-     name  线程名  默认 Thread-1
+    from threading import Thread
+    t = Thread()
+    功能:创建进程对象
+    参数: target 绑定线程函数
+        args 元组  给线程函数传参
+        kwargs  字典  给线程函数传参
+        name  线程名  默认 Thread-1
 
-t.start()  启动线程,自动运行线程函数
-t.join([timeout]) 阻塞等待回收线程
+    t.start()  启动线程,自动运行线程函数
+    t.join([timeout]) 阻塞等待回收线程
+
+线程对象属性
+    t.name  线程名字
+    t.setname()    设置名称
+    t.getname()    获取名称
+    t.is_alive()   线程状态
+    threading.currentThread()   获取当前线程对象
+    
+    t.daemon  默认为False此时主线程退出分支线程继续执行
+              如果设置为True则主线程退出分支线程也结束执行
+
+    t.setDaemon(True)   查看daemon属性
+    t.isDaemon()        查看daemon属性
+    
+    *在start前设置,通常不和join() 同用
+
+自定义线程类
+    步骤:
+        1.继承Thread 类
+        2.添加自己的属性__init__,加载父类__init__
+        3.重写run
+        4.使用自己的类生成线程对象.调用start()会自动以一个线程执行run
+
+线程的通信:
+    通信方法:使用进程空间中的全局变量通信
+    注意事项:共享资源争夺,往往需要同步互斥机制协调
+
+线程同步互斥:
+    共享资源(临界资源):多个线程都可以操作的资源成为共享资源
+    临界区:指一段代码,对临界资源操作的代码段
+
+
 

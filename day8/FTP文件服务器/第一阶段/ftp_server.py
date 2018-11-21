@@ -54,7 +54,6 @@ def main():
         if pid == 0:
             sockfd.close()
             print("处理客户端请求",os.getpid())
-            
             os._exit(0)        
         else:
             c.close()
@@ -63,4 +62,5 @@ def main():
             t.setDaemon(True)
             t.start()
             continue
+
 main()

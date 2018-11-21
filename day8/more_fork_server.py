@@ -1,6 +1,8 @@
+'''创建二级子进程的方式'''
+
+
 from socket import *
 import os,sys
-
 
 def client_handle(c):
     print('客户端地址',c.getpeername())

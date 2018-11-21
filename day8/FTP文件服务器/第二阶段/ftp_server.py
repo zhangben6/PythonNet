@@ -47,8 +47,6 @@ class FtpServer():
                 time.sleep(0.1)
         self.c.send(b'##')
 
-
-
 #创建网络网络连接
 def main():
     sockfd = socket(AF_INET,SOCK_STREAM)

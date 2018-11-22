@@ -18,18 +18,16 @@
 
 from socket import *
 s = socket(AF_INET,SOCK_DGRAM)
-s.bind(("0.0.0.0",8888))
-print("wating for....")
+s.bind(("0.0.0.0",8000))
+print("waiting...")
+
 while True:
-    data,addr = s.recvfrom(1024)
-    if not data:
-        break
-    print(data.decode())
-    n = s.sendto(b"Thanks",addr)
-    print("发送的字节数是%d" % n)
+    data,addr = s.recvfrom(5)
+    print("Receive from",addr,data.decode())
+
+    s.sendto(b'Thanks',addr)
 
 s.close()
-
 
 
 

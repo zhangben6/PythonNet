@@ -29,14 +29,12 @@ def handleClient(connfd):
     for line in request_lines:
         print(line)
     try:
-        f = open("demo.html")
-        s = read()
-        print(s)
+        f = open("/home/tarena/python/Pythonnet/day2/zhangben.html")
     except Exception:
         response = "HTTP/1.1 404 Not Found\r\n"
         response += "Content-Type:text/html\r\n"  
         response += "\r\n"
-        response += "<h1> Sorry the page not found</h1>"
+        response += "<h1> Sorry the page not found111</h1>"
     else:
         response = "HTTP/1.1 200 OK\r\n"
         response += "Content-Encoding:utf8\r\n"

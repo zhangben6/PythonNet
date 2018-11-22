@@ -7,7 +7,7 @@ s.listen(5)
 print("waiting for ....")
 while True:
     c,addr = s.accept()
-    print("connect from :",addr)
+    print("connect from :",c.getpeername())
     # 浏览器的请求
     data = c.recv(4096)
     print(data)

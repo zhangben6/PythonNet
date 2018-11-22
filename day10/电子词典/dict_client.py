@@ -103,7 +103,7 @@ def login(s,name):
         except Exception as e:
             print("命令错误")
             continue
-        except KeyboardInterrupt"
+        except KeyboardInterrupt:
             s.send(b'Q')
             s.close()
             sys.exit("二级界面退出")
@@ -111,24 +111,38 @@ def login(s,name):
             print("不存在该选项")
             continue
         elif cmd == 1:
-            do_find(s,name)
+            do_query(s,name)
         elif cmd == 2:
-            pass
+            do_history(s,name)
         elif cmd == 3:
             break
 
 #以下为二级页面操作函数
-def do_find(s,name):
-    msg = 'E %s %s'%(word,name)
+def do_query(s,name):
+    while True:
+        word = input("单词:")
+        if word == '##':
+            break
+        msg = 'E %s %s'%(name,word)
+        s.send(msg.encode())
+        #接受服务端反馈结果
+        data = s.recv(2048).decode()
+        if data == 'FALL':
+            print("没有该单词")
+        else:
+            print(data)
+
+def do_history(s,name):
+    msg = 'H %s' % (name)    
     s.send(msg.encode())
-    #接受服务端反馈结果
     data = s.recv(128).decode()
-    if data = 'OK':
-
-
-
-
-
-
+    if data == 'OK':
+        while True:
+            data = s.recv(1024).decode()
+            if data == '##':
+                break
+            print(data)
+    else:
+        print("没有历史记录")
 if __name__ == '__main__':
     main()

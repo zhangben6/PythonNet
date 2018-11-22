@@ -76,14 +76,12 @@ def do_register(c,db,data):
         c.send(b'FALL')
     
 
-
-
 #搭建网络
 def main():
 
     #创建数据库连接对象
     db = pymysql.connect('localhost','root','123456','dict')
-
+    
     #创建套接字
     s = socket()
     s.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)

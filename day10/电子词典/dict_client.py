@@ -1,6 +1,8 @@
 from socket import *
 import sys
 import getpass
+
+
 #创建网络连接
 def main():
     if len(sys.argv) < 3:
@@ -29,6 +31,10 @@ def main():
         except Exception as e:
             print("命令错误")
             continue
+        except KeyboardInterrupt:
+            s.send(b'Q')
+            s.close()
+            sys.exit("感谢使用")
         if cmd not in [1,2,3]:
             print("不存在该选项")
             continue
@@ -41,8 +47,6 @@ def main():
             s.close()
             sys.exit("谢谢使用")
             
-            
-
 def do_register(s):
     while True:
         name = input("User:")
@@ -85,17 +89,46 @@ def do_login(s):
     else:
         print("登录失败")
 
-
-def do_login():
+def login(s,name):
     '''这个函数是二级页面客户端操作'''
-    print('''
-    ============查询界面============
-    --1.查词  2.历史记录  3.注销--
-    ===============================
-    ''')
+    while True:
+        print('''
+        ============查询界面============
+        --1.查词  2.历史记录  3.注销--
+        ===============================
+        ''')
+        
+        try:
+            cmd = int(input("请输入:"))
+        except Exception as e:
+            print("命令错误")
+            continue
+        except KeyboardInterrupt"
+            s.send(b'Q')
+            s.close()
+            sys.exit("二级界面退出")
+        if cmd not in [1,2,3]:
+            print("不存在该选项")
+            continue
+        elif cmd == 1:
+            do_find(s,name)
+        elif cmd == 2:
+            pass
+        elif cmd == 3:
+            break
 
-    cmd = input()
-    if cmd == '3':
-        break
+#以下为二级页面操作函数
+def do_find(s,name):
+    msg = 'E %s %s'%(word,name)
+    s.send(msg.encode())
+    #接受服务端反馈结果
+    data = s.recv(128).decode()
+    if data = 'OK':
+
+
+
+
+
+
 if __name__ == '__main__':
     main()

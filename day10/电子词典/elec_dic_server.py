@@ -16,25 +16,33 @@ pass
 class DictionaryServer():
     def __init__(self,c):
         self.c = c
-    def do_register(name,password1,password2):
+    def do_register(self,name,password1,password2):
         sqlh = Mysqlpython('db6')
-        sele = "select username from user where username=%s"
+        sele = "select name from user where name=%s"
         r = sqlh.All(sele,[name])
         if r:
             self.c.send("用户名已经存在".encode())
         else:
             if password1 == password2:
-                #对密码加密,存入数据库
-                s = sha1()
-                s.updata(password1.encode('utf8')) #加密
-                pwd = s.hexdigest()
-                ins = 'insert into user values(%s,%s)'
-                sqlh.zhixing(ins,[name,pwd])
-                self.c.send("OK")
-                break
+                try:
+                    ins = 'insert into user(name,passwd) values(%s,%s)'
+                    sqlh.zhixing(ins,[name,password1])
+                    self.c.send(b"OK")
+                except Exception as e:
+                    print(e)
+                    return
             else:
                 self.c.send("输入的密码不一致".encode())
                 
+def do_child(c,server):
+    while True:
+        try:
+            data = c.recv(1024).decode()
+        except Exception as e:
+            print("异常",e)
+        datalist = data.split(' ')
+        if datalist[0] == 'R':
+            server.do_register(datalist[1],datalist[2],datalist[3])
 
 
 #处理子进程的退出(僵尸进程)
@@ -65,17 +73,10 @@ def main():
         pid = os.fork()
         if pid == 0:
             sockfd.close()
-            server = DictionaryServer(c)
+            server1 = DictionaryServer(c)
             #处理客户端的命令请求:
-            while True:
-                try:
-                    data = c.recv(1024).decode()
-                except Exception as e:
-                    print("异常",e)
-                datalist = data.split(' ')
-                if datalist[0] == 'R':
-                    server.do_register(name,data[1],data[2],data[3])
-
+            do_child(c,server1)
+            
             os._exit(0)
         else:
             c.close()        

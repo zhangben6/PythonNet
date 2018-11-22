@@ -51,10 +51,9 @@ class HTTPServer():
         self.sockfd.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)
         self.sockfd.bind(self.server_address)
 
-#提供服务器器地址和静态文件路径
+#提供服务器地址和静态文件路径
 server_addr = ("0.0.0.0",8000)
 static_dir = "../static"
-
 
 #创建服务器对象
 httpd = HTTPServer(server_addr,static_dir)

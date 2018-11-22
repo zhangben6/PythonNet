@@ -52,6 +52,7 @@ while True:
     print(data.decode())
     n = c.send("Receive msg".encode())
     print("发送了%d个字节" % n)
+c.close()
 sockfd.close()
 
 

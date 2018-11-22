@@ -11,7 +11,7 @@ s.bind(("127.0.0.1",8533))
 # print("type",s.type) #套接字类型
 # print(s.getsockname()) # 绑定地址
 
-#文件描述符
+# #文件描述符
 # print("fileno:",s.fileno())
 
 
@@ -20,5 +20,5 @@ print("get opt:",s.getsockopt(SOL_SOCKET,SO_REUSEADDR))
 s.listen(3)
 c,addr=s.accept()
 print(c.getpeername())
-# c.recv(1024)  
+c.recv(1024)  
 

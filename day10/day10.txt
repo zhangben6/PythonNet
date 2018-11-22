@@ -1,0 +1,63 @@
+
+低昂
+
+
+功能说明:
+1.用户可以登录和注册
+    登录凭借用户名密码即可
+    注册要求用户必须填写用户名密码,其他内容自定
+    用户名不能重复,且用户数据可以长期保存
+
+2.服务端和客户端,要求满足多个客户端同时登录
+
+
+3.客户端 启动后即进入一级界面,功能如下:
+    注册  登录  退出
+    如果注册或者登录失败,返回一级界面
+4.如果用户登录成功即可进入二级界面
+    查词  查看历史记录  注销
+
+    查词: 可以循环查词,输入查词,得到单词解释
+          输入##退出
+    
+    历史记录:选择该项即可显示当前登录用户最近的
+            查词记录(可以显示所有,也可以显示最近十条)
+
+            展示格式: name  word  time 
+=========================================================================================
+1.确定技术点
+    数据库使用:mysql
+    确定单词查询方法:文本数据库?
+    确定套接字和并发方法:什么套接字,什么并发?
+
+2.建立数据库和数据表
+    确定几个表,表的关系,表的字段,字段类型
+    create database dict default charset=utf8;
+
+    用户表: id  name password
+        create table user(id int primary key auto_increment,\
+        name varchar(32) not null,passwd varchar(16) \
+        default '000000');
+    
+    历史记录表:  id  name  word  time
+        create table hist(id int primary key auto_increment,\
+        name varchar(32) not null,\
+        word varchar(128) not null,time varchar(128));
+
+    单词表: id  word  terpret
+        create table words(id int primary key auto_increment,\
+        word varchar(128),interpret text);
+
+        如果使用数据库查词,将单词插入数据库
+
+
+3.项目结构分析,分为几部分,几个功能模块
+
+服务端:创建套接字---> 创建父子进程---> 子进程循环接受客户端请求---> 父进程继续等待其他客户端连接
+      处理的请求类型: 注册,登录,查询,历史记录,退出
+
+客户端:创建套接字 ---> 发起连接请求 --->进入一级界面 ---> 循环发送请求 ---> 登陆以后循环发送请求
+
+4.搭建通信类型
+
+    

@@ -17,8 +17,64 @@ def zombie():
 
 
 def do_child(c,db):
-    print(c.recv(1024))
+    # print(c.recv(1024))
+    while True:
+        data = c.recv(1024).decode()
+        print(c.getpeername(),':',data)
 
+        if not data[0] or data[0] == 'Q':
+            c.close() 
+            break
+
+        elif data[0] == 'R':
+            do_register(c,db,data)
+
+        elif data[0] == 'L':
+            do_login(c,db,data)
+
+
+def do_login(c,db,data):
+    l = data.split(" ")
+    # 取出数据
+    name = l[1]
+    passwd = l[2]
+
+    #创建油表对象
+    cursor = db.cursor()
+    sql = "select * from user where name='%s' and passwd='%s'" % (name,passwd)
+
+    #查找用户
+    cursor.execute(sql)
+    r = cursor.fetchone()
+    if r == None:
+        c.send(b'FALL')
+    else:
+        c.send(b'OK')
+
+
+def do_register(c,db,data):
+    l = data.split(' ')
+    name = l[1]
+    passwd = l[2]
+    cursor = db.cursor()
+    sql = "select * from user where name='%s'" % name
+    cursor.execute(sql)
+    r = cursor.fetchone()
+    #r部位NONE表示该用户已存在
+    if r != None:
+        c.send(b'EXIST')
+        return
+    #插入用户
+    sql = "insert into user (name,passwd) values('%s','%s')" % (name,passwd)
+    
+    try:
+        cursor.execute(sql)
+        db.commit()
+        c.send(b'OK')
+    except:
+        db.rollback()
+        c.send(b'FALL')
+    
 
 
 
@@ -58,4 +114,8 @@ def main():
             t.setDaemon(True)
             t.start()
             continue
-main()
+
+
+
+if __name__ == '__main__':
+    main()

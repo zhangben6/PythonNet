@@ -44,26 +44,3 @@ while True:
 
 
 
-# from socket import *
-# from select import select
-
-# s = socket()
-# s.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)
-# s.bind(("127.0.0.1"),8888)
-# s.listen(5)
-# print("waiting for...")
-
-# rlist = [s]
-# wlist = []
-# xlist = []
-
-# while True:
-#     rs,ws,xs = select(rlist,wlist,xlist)
-#     for r in rs:
-#         if r in rs:
-#             c,addr = s.accpet()
-            
-#     for w in ws:
-#         pass
-#     for x in xs:
-#         pass

@@ -144,3 +144,150 @@ re.findall(pattren,string)
         元字符: \b \B
         匹配规则: \b 匹配单词边界(普通字符和其他字符的交界)
                 \B 匹配非单词边界
+
+疑问:列表出现空字符串
+>>> re.findall('[^a-g]*','safdf')
+['s', '', '', '', '', '']
+>>> re.findall('[^a]*','sa')
+['s', '', '']
+>>> re.findall('\w?$','this is a boy')
+['y', '']
+
+
+
+正则表达式如果匹配特殊字本身符则需要加\
+e.g. 匹配字符 .   用\.
+
+目标字符串   正则表达式
+ $10         \$\d+
+
+ 贪婪和非贪婪
+
+ 贪婪模式:正则表达式的重复匹配默认总是尽可能多的向后匹配内容
+贪婪模式:正则表达式的重复匹配默认总是尽可能多的向后匹配内容
+ ?  +  *  {m,n}
+非贪婪模式(懒惰):
+    尽可能少的匹配内容
+
+    贪婪 --> 非贪婪  *?  +?  ??  {m,n}?
+
+
+正则表达式分组:
+    使用()可以为正则表达式内部建立分组.通过分组构建正则表达式的内部整体处理部分
+    re.search(r'(ab)+','ababababa)
+
+    *子组是正则表达式的一部为,子组需要再整体能够匹配内荣的前提下发挥作用
+
+    子组的作用:
+        1.作为一个内部整体,改变某些
+    >>> re.findall(r'(http|https|ftp)://\S+','https://www.baidu.com')
+        ['https']
+    >>> re.search(r'(http|https|ftp)://\S+','https://www.baidu.com').group()
+        'https://www.baidu.com'
+    >>> re.search(r'(http|https|ftp)://\S+','https://www.baidu.com').group(1)
+        'https'
+
+    捕获组和非捕获组
+    捕获组: 被命名的子组
+        格式: (?p<name>pattern)
+        作用:名字可以表达一定的含义,也可以通过名字来提取子组对应的内容
+        >>> re.search(r'(?P<big>[A-Z])\w*','Hello World').group()
+        'Hello'
+        为什么不匹配后面的WORLD
+    
+    * 一个正则表达式可以有多个子组,多个子组尽量不要重叠或者过多嵌套.通常由外到内,从左到右为第一第二子组
+
+
+正则表达式的设计原则:
+    1.正确性:能够正确的匹配目标字符串
+    2.排他性:除了要匹配的内容,尽可能不会匹配到其他多余内容
+    3.全面性:尽可能将目标字符串的全部情况考虑全面,不遗漏
+
+
+
+-----------------------------------------------------------------
+re 模块
+
+regex = compile(pattern,flags=0)
+功能:生成正则表达式对象
+对象:pattern 正则表达式
+    flags   功能标识,用来丰富正则表达式功能
+返回值:返回一个正则表达式对象
+
+
+re.findall(pattern,string,flags)
+功能:使用正则表达式匹配目标字符串
+参数:pattren 正则表达式
+    string   目标字符串
+    flags   标志位
+返回值:列表,匹配到的内容
+    如果正则表达式有子组则只获取子组对应的内容
+    如果正则表达式中有多个子组,那么返回值会把子组的内容结合着放到一个列表中
+
+
+regex.findall(string,pos,endpos)
+功能:使用正则表达式匹配目标字符串
+参数:string 目标字符串
+    pos 匹配目标的起始位置
+    endpos 匹配目标的结束位置
+返回值:列表,匹配到的内容
+      如果正则表达式有子组则只获取子组对应的内容
+
+示例见regex.py
+----------------------------------------------------------------------------
+
+re.split(pattern,string,flags)
+功能:使用正则匹配到的部分切割目标字符串
+参数: pattern 正则
+     string   目标字符串
+     flags    标志位
+
+
+re.sub(pattern,replaceStr,string,max,flags)
+功能:使用字符串替换匹配到的内容
+参数: replaceStr 替换子串
+     max 最多替换几处  默认全部替换
+返回值:返回替换后的字符串
+
+
+re.subn()
+功能参数同sub
+返回值:返回替换后的字符串和替换数量
+
+
+re.finditer(pattern,string,flags)
+功能:使用正则表达式匹配目标字符串
+参数: pattern   正则
+     string    目标子串
+     flags     标志位
+返回值:返回一个包含匹配内容的迭代对象
+
+
+re.fullmatch(pattern,string,flags)
+功能:完全匹配一个目标字符串开始位置
+参数: pattern 正则
+     string 目标子串
+     flags   标志位
+返回值:  match 对象
+
+
+search(pattern,string,flags)
+功能:匹配目标字符串第一处匹配内容
+参数:pattern 正则
+    string  目标子串
+
+-----------------------------------------------------------------
+compile对象属性及方法
+
+    pattern : 正则表达式
+
+    flags: 标志位值
+
+    groupindex:查看组名和序列号(获取捕获组名和对应序列号的字典)
+
+    groups:子组数量
+
+
+match 对象的属性和函数
+
+

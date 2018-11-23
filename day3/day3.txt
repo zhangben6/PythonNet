@@ -51,7 +51,7 @@ IO模型
     poll: linux unix
     epoll:linux
 
-    1.select 方法
+1.select 方法
     rs,ws,xs = select(rlist,wlist,xlist[,timeout])
     功能: 监控IO事件,阻塞等待IO事件发生
     参数: rlist 列表    存放需要等待条件发生的IO事件  

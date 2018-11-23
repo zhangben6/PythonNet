@@ -8,10 +8,10 @@ sockfd.bind(("0.0.0.0",9000))
 sockfd.listen(3)
 
 #设置为非阻塞状态
-# sockfd.setblocking(True)
+sockfd.setblocking(False)
 
 #设置超时时间
-sockfd.settimeout(5)
+# sockfd.settimeout(5)
 
 while True:
     print("waiting for connect.....")
